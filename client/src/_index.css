@@ -1,0 +1,38 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+#root{
+  text-align: center;
+}
+
+li {
+    list-style: none;
+}
+
+.stock-list {
+    width: 200px;
+    margin: 0 auto;
+}
+
+.list-item {
+    position: relative;
+    height: 30px;
+}
+
+.list-item-left {
+    position: absolute;
+    left: 0px;
+}
+
+.list-item-right {
+    position: absolute;
+    right: 0px;
+
+    height: 20px;
+    width: 20px;
+
+    cursor: pointer;
+}

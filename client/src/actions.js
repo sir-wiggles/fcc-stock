@@ -7,7 +7,7 @@ let conn;
 export function SockConnect(dispatch) {
     if (window["WebSocket"]) {
         //conn = new WebSocket("ws://localhost:8080/ws");
-        conn = new WebSocket("ws://" + window.location.hostname + "/ws");
+        conn = new WebSocket("ws://" + window.location.host + "/ws");
         conn.onmessage = function (evt) {
             var message = JSON.parse(evt.data);
             switch (message.type) {

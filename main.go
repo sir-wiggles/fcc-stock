@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"html/template"
 	"log"
 	"net/http"
 	"os"
@@ -14,7 +13,8 @@ import (
 )
 
 var addr = flag.String("addr", ":8080", "http service address")
-var homeTemplate = template.Must(template.ParseFiles("home.html"))
+
+//var homeTemplate = template.Must(template.ParseFiles("./client/build/static/index.html"))
 
 func main() {
 	flag.Parse()
@@ -26,6 +26,9 @@ func main() {
 	hub := newHub()
 	go hub.run()
 
+	fs := http.StripPrefix("/static", http.FileServer(http.Dir("client/build/static")))
+
+	http.Handle("/static/", fs)
 	http.HandleFunc("/", serveHome)
 	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
 		serveWs(hub, w, r)
@@ -49,8 +52,9 @@ func serveHome(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	log.Println("here")
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	homeTemplate.Execute(w, r.Host)
+	http.ServeFile(w, r, "client/build/index.html")
 }
 
 type Hub struct {
